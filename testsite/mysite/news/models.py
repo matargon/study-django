@@ -14,6 +14,7 @@ class News(models.Model):
                                  verbose_name='Категория',
                                  # related_name='get_news' заменяет метод news_set в объекте категории на get_news
                                  )
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
