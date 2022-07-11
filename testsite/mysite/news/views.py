@@ -6,6 +6,15 @@ from .models import News, Category
 from django.urls import reverse_lazy
 from .utils import MyMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+
+
+def test(request):
+    objects = ['john1', 'paul2', 'george3', 'ringo4', 'john5', 'paul6', 'george7']
+    paginator = Paginator(objects, 2)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'news/test.html', {'page_obj': page_obj})
 
 
 class HomeNews(MyMixin, ListView):
