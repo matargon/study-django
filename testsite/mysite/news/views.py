@@ -12,7 +12,9 @@ from django.core.paginator import Paginator
 def test(request):
     objects = ['john1', 'paul2', 'george3', 'ringo4', 'john5', 'paul6', 'george7']
     paginator = Paginator(objects, 2)
+    # print(dir(paginator))
     page_number = request.GET.get('page', 1)
+    # print(request.GET)
     page_obj = paginator.get_page(page_number)
     return render(request, 'news/test.html', {'page_obj': page_obj})
 
@@ -22,6 +24,7 @@ class HomeNews(MyMixin, ListView):
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
     mixin_prop = 'hello_world'
+    paginate_by = 2
 
     # extra_context = {'title': 'Главная'} #используется только для константных значений
 
@@ -44,6 +47,7 @@ class NewsByCategory(MyMixin, ListView):
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
     allow_empty = False
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
