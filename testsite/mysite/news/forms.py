@@ -3,6 +3,8 @@ from django import forms
 from .models import News
 import re
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 # форма несвязанная с моделью
@@ -17,6 +19,28 @@ from django.core.exceptions import ValidationError
 #     category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория ',
 #                                       empty_label='Выберите категорию',
 #                                       widget=forms.Select(attrs={"class": "form-control"}))
+
+
+class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(label='Имя пользователя', help_text="Какая то помощь",
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Подтверждение пароля',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        # widgets = {
+        #     # 'username': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'email': forms.EmailInput(attrs={
+        #         "class": "form-control",
+        #         # "rows": 5
+        #     }),
+        #     # 'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+        #     # 'password2': forms.PasswordInput(attrs={'class': 'form-control'})
+        # }
 
 
 class NewsForm(forms.ModelForm):
